@@ -25,6 +25,9 @@
         public const string ENV_NAV_SIGNKEY = "NAV_SIGNKEY";
         public const string ENV_NAV_EXCHANGEKEY = "NAV_EXCHANGEKEY";
 
+        public const string ENV_DOTNET_ENVIRONMENT = "ENV_DOTNET_ENVIRONMENT";
+        public const string ENV_ASPNETCORE_ENVIRONMENT = "ASPNETCORE_ENVIRONMENT";
+
         public const string DEF_ENCODING = "ISO-8859-2";
         public const string DEF_CSVSEP = ";";
         public const string DEF_DATEFORMAT = "yyyy-MM-dd";
