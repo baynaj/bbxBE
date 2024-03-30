@@ -121,7 +121,7 @@ namespace bbxBE.Infrastructure.Persistence.Migrations
                 begin
                     INSERT INTO [dbo].[Users]  ([Name],[Email],[LoginName],[PasswordHash],[Comment],[Active], [UserLevel])
                      VALUES
-                        ('Ifj. Mezei József', '','mj', '{0}', 'Automatikusan létrehozva',1, 'LEVEL1')
+                        ('Ifj. Mezei József', 'mezeirelaxvill@gmail.com','mj', '{0}', 'Automatikusan létrehozva',1, 'LEVEL1')
                 end",
                  pwdHash));
 
@@ -132,7 +132,7 @@ namespace bbxBE.Infrastructure.Persistence.Migrations
                 begin
                     INSERT INTO [dbo].[Users]  ([Name],[Email],[LoginName],[PasswordHash],[Comment],[Active], [UserLevel])
                      VALUES
-                        ('Kormos Krisztián', '','kk', '{0}', 'Automatikusan létrehozva',1, 'LEVEL2')
+                        ('Kormos Krisztián', 'vevoszolgalat@relaxvill.hu','kk', '{0}', 'Automatikusan létrehozva',1, 'LEVEL2')
                 end",
                  pwdHash));
 
@@ -143,7 +143,7 @@ namespace bbxBE.Infrastructure.Persistence.Migrations
                 begin
                     INSERT INTO [dbo].[Users]  ([Name],[Email],[LoginName],[PasswordHash],[Comment],[Active], [UserLevel])
                      VALUES
-                        ('Máté-Tóth Péter', '','mtp', '{0}', 'Automatikusan létrehozva',1, 'LEVEL2')
+                        ('Máté-Tóth Péter', 'ajanlat@relaxvill.hu','mtp', '{0}', 'Automatikusan létrehozva',1, 'LEVEL2')
                 end",
                  pwdHash));
 
@@ -198,7 +198,7 @@ namespace bbxBE.Infrastructure.Persistence.Migrations
                 begin
                     INSERT INTO [dbo].[Users]  ([Name],[Email],[LoginName],[PasswordHash],[Comment],[Active], [UserLevel])
                      VALUES
-                        ('Rékási István', '','ri', '{0}', 'Automatikusan létrehozva',1, 'LEVEL2')
+                        ('Rékási István', 'rekasi@relaxvill.hu','ri', '{0}', 'Automatikusan létrehozva',1, 'LEVEL2')
                 end",
                  pwdHash));
 
@@ -243,7 +243,7 @@ namespace bbxBE.Infrastructure.Persistence.Migrations
                 begin
                     INSERT INTO [dbo].[Users]  ([Name],[Email],[LoginName],[PasswordHash],[Comment],[Active], [UserLevel])
                      VALUES
-                        ('Török István', '','ti', '{0}', 'Automatikusan létrehozva',1, 'LEVEL2')
+                        ('Török István', 'kecskemet@relaxvill.hu','ti', '{0}', 'Automatikusan létrehozva',1, 'LEVEL2')
                 end",
                  pwdHash));
 
@@ -287,7 +287,7 @@ namespace bbxBE.Infrastructure.Persistence.Migrations
                 begin
                     INSERT INTO [dbo].[Users]  ([Name],[Email],[LoginName],[PasswordHash],[Comment],[Active], [UserLevel])
                      VALUES
-                        ('bbxAdmin', '','bbx', '{0}', 'Automatikusan létrehozva',1, 'LEVEL1')
+                        ('bbxAdmin', 'bbxsoftware@gmail.com','bbx', '{0}', 'Automatikusan létrehozva',1, 'LEVEL1')
                 end",
                  pwdHash));
 

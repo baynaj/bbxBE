@@ -161,7 +161,7 @@ namespace bbxBE.Application.Commands.cmdImport
                     throw new ImportParseException("Hiba az importálás közben. További infokért nézze meg a log-ot!");
                 }
                 importProductResponse.CreatedItemsCount = createProductCommands.Count;
-                importProductResponse.UpdatedItemsCount = updateProductCommands.Count;
+                importProductResponse.UpdatedItemsCount = !onlyInsert ? updateProductCommands.Count : 0;
 
                 _logger.Information(String.Format(bbxBEConsts.PROD_IMPORT_RESULT,
                     importProductResponse.AllItemsCount,
@@ -393,7 +393,15 @@ namespace bbxBE.Application.Commands.cmdImport
 
             try
             {
-                createProductCommand.Description = productMapper.ContainsKey(DescriptionFieldName) ? currentFieldsArray[productMapper[DescriptionFieldName]].Replace("\"", "").Trim() : null;
+                var desc = productMapper.ContainsKey(DescriptionFieldName) ? currentFieldsArray[productMapper[DescriptionFieldName]].Trim() : "";
+
+                if (desc.StartsWith("\""))
+                {
+                    desc = desc.Substring(1);
+                }
+                desc = desc.Replace("\"\"", "");
+
+                createProductCommand.Description = desc;
                 createProductCommand.ProductCode = productMapper.ContainsKey(ProductCodeFieldName) ? currentFieldsArray[productMapper[ProductCodeFieldName]].Replace("\"", "").Trim() : null;
                 createProductCommand.OriginCode = productMapper.ContainsKey(OriginCodeFieldName) ? currentFieldsArray[productMapper[OriginCodeFieldName]].Replace("\"", "").Trim() : null;
                 createProductCommand.UnitOfMeasure = productMapper.ContainsKey(UnitOfMeasureFieldName) ? currentFieldsArray[productMapper[UnitOfMeasureFieldName]].Replace("\"", "").Trim() : null;
