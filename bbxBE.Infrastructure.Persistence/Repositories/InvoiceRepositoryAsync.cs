@@ -1446,7 +1446,7 @@ namespace bbxBE.Infrastructure.Persistence.Repositories
                     //Bizonylatszám megállapítása
                     counterCode = bllCounter.GetCounterCode(invoiceType, paymentMethod, invoice.Incoming, isInvoiceCorrection, wh.ID);
                     invoice.InvoiceNumber = await _counterRepository.GetNextValueAsync(counterCode, wh.ID);
-                    invoice.Copies = 1;
+                    invoice.Copies = 0;
 
 
                     await this.AddInvoiceAsync(invoice, RelDeliveryNoteLines);

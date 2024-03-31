@@ -7,6 +7,7 @@ using bbxBE.Common.Exceptions;
 using bbxBE.Common.NAV;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using PdfSharp.Pdf;
 using PdfSharp.Pdf.IO;
@@ -47,10 +48,12 @@ namespace bbxBE.Application.Commands.cmdInvoice
     public class PrintInvoiceCommandHandler : IRequestHandler<PrintInvoiceCommand, FileStreamResult>
     {
         private readonly IInvoiceRepositoryAsync _invoiceRepository;
+        private readonly string _invoiceDir;
 
-        public PrintInvoiceCommandHandler(IInvoiceRepositoryAsync invoiceRepository)
+        public PrintInvoiceCommandHandler(IInvoiceRepositoryAsync invoiceRepository, IConfiguration configuration)
         {
             _invoiceRepository = invoiceRepository;
+            _invoiceDir = configuration.GetValue<string>(bbxBEConsts.CONF_INVOICEDIR);
         }
 
         public async Task<FileStreamResult> Handle(PrintInvoiceCommand request, CancellationToken cancellationToken)
@@ -134,6 +137,16 @@ namespace bbxBE.Application.Commands.cmdInvoice
             for (int cp = 0; cp < request.Copies; cp++)
             {
 
+                //Példányszám beállítása
+                //
+                invoice.Copies++;
+
+                //Nullra vesszük a detail táblákat, csak az Invoice táblát kell menteni
+                invoice.InvoiceLines = null;
+                invoice.SummaryByVatRates = null;
+                invoice.AdditionalInvoiceData = null;
+
+                await _invoiceRepository.UpdateInvoiceAsync(invoice, null);
 
                 using (System.Xml.XmlReader xmlReader = XmlReader.Create(new StringReader(reportTRDX), settings))
                 {
@@ -160,16 +173,6 @@ namespace bbxBE.Application.Commands.cmdInvoice
                     throw new Exception(string.Format(bbxBEConsts.ERR_INVOICEREPORT, result.Errors[0].Message));
 
 
-                //Példányszám beállítása
-                //
-                invoice.Copies++;
-
-                //Nullra vesszük a detail táblákat, csak az Invoice táblát kell menteni
-                invoice.InvoiceLines = null;
-                invoice.SummaryByVatRates = null;
-                invoice.AdditionalInvoiceData = null;
-
-                await _invoiceRepository.UpdateInvoiceAsync(invoice, null);
 
                 //TODO : Az eredeti példány folderbe el kell rakni ay első a PDF-et
                 Stream stream = new MemoryStream(result.DocumentBytes);
@@ -178,6 +181,13 @@ namespace bbxBE.Application.Commands.cmdInvoice
                 {
                     resultPdf.AddPage(page);
                 }
+
+                if(invoice.Copies == 1 && !string.IsNullOrWhiteSpace( _invoiceDir))
+                {
+                    resultPdf.Save(Path.Combine(_invoiceDir, $"{invoice.InvoiceNumber.Replace("/", "-")}.pdf"));
+                }
+
+
 
             }
             string fileName = $"Invoice{invoice.InvoiceNumber.Replace("/", "-")}.pdf";
