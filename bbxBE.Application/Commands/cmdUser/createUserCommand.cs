@@ -63,7 +63,7 @@ namespace bbxBE.Application.Commands.cmdUser
         {
             var usr = _mapper.Map<Users>(request);
             var salt = Environment.GetEnvironmentVariable(bbxBEConsts.ENV_PWDSALT);
-            usr.PasswordHash = bllUser.GetPasswordHash(request.Password, _configuration.GetValue<string>(salt));
+            usr.PasswordHash = bllUser.GetPasswordHash(request.Password, salt);
 
             await _userRepository.AddAsync(usr);
             return new Response<Users>(usr);
