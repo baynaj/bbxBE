@@ -72,7 +72,7 @@ namespace bbxBE.Application.Commands.cmdUser
             {
                 //Jelszóváltozás
                 var salt = Environment.GetEnvironmentVariable(bbxBEConsts.ENV_PWDSALT);
-                usr.PasswordHash = bllUser.GetPasswordHash(request.Password, _configuration.GetValue<string>(salt));
+                usr.PasswordHash = bllUser.GetPasswordHash(request.Password, salt);
             }
             else
             {
