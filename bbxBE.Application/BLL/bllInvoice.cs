@@ -341,7 +341,7 @@ namespace bbxBE.Application.BLL
                 int latestLineNumberReference = 0;
 
                 var invoiceLinesNAV = new List<LineType>();
-                foreach (InvoiceLine ili in invoice.InvoiceLines)
+                foreach (InvoiceLine ili in invoice.InvoiceLines.OrderBy( o => o.LineNumber))
                 {
                     var invlineNAV = new LineType(
                             p_lineNatureIndicatorSpecified: false,

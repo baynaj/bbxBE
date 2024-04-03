@@ -1577,6 +1577,11 @@ namespace bbxBE.Infrastructure.Persistence.Repositories
         public IList<string> Import(string CSVContent, string warehouseCode)
         {
 
+            // Gets a NumberFormatInfo associated with the en-US culture.
+            NumberFormatInfo nfi = CultureInfo.CurrentCulture.NumberFormat;
+
+            
+
             var wh = _warehouseRepository.GetWarehouseByCodeAsync(warehouseCode).GetAwaiter().GetResult();
             if (wh == null)
             {
@@ -1708,9 +1713,9 @@ namespace bbxBE.Infrastructure.Persistence.Repositories
                         cust.CountyCode = adoszam.Substring(11, 2);
                     }
                     cust.CountryCode = !string.IsNullOrWhiteSpace(ORSZAG) ? ORSZAG : "HU";
-                    cust.LatestDiscountPercent = Decimal.Parse(V_ENG.Replace(".", ","));
-                    cust.PaymentDays = short.Parse(V_FIZH.Replace(".", ","));
-                    // cust.MaxLimit= Decimal.Parse(LIMIT.Replace(".", ","));
+                    cust.LatestDiscountPercent = Decimal.Parse(V_ENG.Replace(".", nfi.NumberDecimalSeparator));
+                    cust.PaymentDays = short.Parse(V_FIZH.Replace(".", nfi.NumberDecimalSeparator));
+                    // cust.MaxLimit= Decimal.Parse(LIMIT.Replace(".", nfi.NumberDecimalSeparator));
                     cust.ThirdStateTaxId = EUADOSZAM;
                     cust.IsFA = V_FAFA == "1";
                     cust.CustomerVatStatus = !string.IsNullOrWhiteSpace(adoszam) && cust.CountryCode == "HU" ? CustomerVatStatusType.DOMESTIC.ToString() :
@@ -1745,21 +1750,24 @@ namespace bbxBE.Infrastructure.Persistence.Repositories
                     */
                     var FIZMOD = invoiceItem["FIZMOD"];
                     var CURRENCY = invoiceItem["CURRENCY"];
-                    var RATE = Decimal.Parse(invoiceItem["RATE"].Replace(".", ","));
+                    var RATE = Decimal.Parse(invoiceItem["RATE"].Replace(".", nfi.NumberDecimalSeparator));
 
-                    var FELAR = Decimal.Parse(invoiceItem["FELAR"].Replace(".", ","));
-                    var ENG = Decimal.Parse(invoiceItem["ENG"].Replace(".", ","));
-                    var ENGFELOSSZ = Decimal.Parse(invoiceItem["ENGFELOSSZ"].Replace(".", ","));
+                    var FELAR = Decimal.Parse(invoiceItem["FELAR"].Replace(".", nfi.NumberDecimalSeparator));
+                    var ENG = Decimal.Parse(invoiceItem["ENG"].Replace(".", nfi.NumberDecimalSeparator));
+                    var ENGFELOSSZ = Decimal.Parse(invoiceItem["ENGFELOSSZ"].Replace(".", nfi.NumberDecimalSeparator));
 
-                    var OSSZ = Decimal.Parse(invoiceItem["OSSZ"].Replace(".", ","));
-                    var AFAERT = Decimal.Parse(invoiceItem["AFAERT"].Replace(".", ","));
-                    var BRUTTO = Decimal.Parse(invoiceItem["BRUTTO"].Replace(".", ","));
+                    var OSSZ = Decimal.Parse(invoiceItem["OSSZ"].Replace(".", nfi.NumberDecimalSeparator));
+                    var AFAERT = Decimal.Parse(invoiceItem["AFAERT"].Replace(".", nfi.NumberDecimalSeparator));
+                    var BRUTTO = Decimal.Parse(invoiceItem["BRUTTO"].Replace(".", nfi.NumberDecimalSeparator));
 
-                    var CRCY_OSSZ = Decimal.Parse(invoiceItem["CRCY_OSSZ"].Replace(".", ","));
-                    var CRCY_AFA = Decimal.Parse(invoiceItem["CRCY_AFA"].Replace(".", ","));
-                    var CRCY_BRT = Decimal.Parse(invoiceItem["CRCY_BRT"].Replace(".", ","));
+                    var CRCY_OSSZ = Decimal.Parse(invoiceItem["CRCY_OSSZ"].Replace(".", nfi.NumberDecimalSeparator));
+                    var CRCY_AFA = Decimal.Parse(invoiceItem["CRCY_AFA"].Replace(".", nfi.NumberDecimalSeparator));
+                    var CRCY_BRT = Decimal.Parse(invoiceItem["CRCY_BRT"].Replace(".", nfi.NumberDecimalSeparator));
 
-
+if( SZAMLASZ == "A-00711S24")
+                    {
+                        Console.WriteLine("dd");
+                    }
                     inv = new Invoice();
                     inv.Incoming = false;
                     inv.InvoiceType = enInvoiceType.INV.ToString();
