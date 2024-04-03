@@ -51,9 +51,9 @@ namespace bbxBE.Application.Commands.cmdProduct
             RuleFor(p => p.VatRateCode)
                  .MustAsync(CheckVatRateCodeAsync).WithMessage(bbxBEConsts.ERR_INVVATRATECODE);
 
-            RuleFor(p => p.VTSZ)
-                 .NotEmpty().WithMessage(bbxBEConsts.ERR_REQUIRED)
-                 .MaximumLength(80).WithMessage(bbxBEConsts.ERR_MAXLEN);
+    //        RuleFor(p => p.VTSZ)
+    //             .NotEmpty().WithMessage(bbxBEConsts.ERR_REQUIRED)
+    //             .MaximumLength(80).WithMessage(bbxBEConsts.ERR_MAXLEN);
 
         }
 
