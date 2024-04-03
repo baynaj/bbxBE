@@ -763,12 +763,17 @@ namespace bbxBE.Infrastructure.Persistence.Repositories
 
             var pcCode = new ProductCode() { ProductCodeCategory = enCustproductCodeCategory.OWN.ToString(), ProductCodeValue = request.ProductCode };
             prod.ProductCodes.Add(pcCode);
-            var pcVTSZ = new ProductCode() { ProductCodeCategory = enCustproductCodeCategory.VTSZ.ToString(), ProductCodeValue = request.VTSZ };
-            prod.ProductCodes.Add(pcVTSZ);
-            ProductCode pcEAN = null;
+
+            if (!string.IsNullOrWhiteSpace(request.VTSZ))
+            {
+
+                var pcVTSZ = new ProductCode() { ProductCodeCategory = enCustproductCodeCategory.VTSZ.ToString(), ProductCodeValue = request.VTSZ };
+                prod.ProductCodes.Add(pcVTSZ);
+            }
+            
             if (!string.IsNullOrWhiteSpace(request.EAN))
             {
-                pcEAN = new ProductCode() { ProductCodeCategory = enCustproductCodeCategory.EAN.ToString(), ProductCodeValue = request.EAN };
+                var pcEAN = new ProductCode() { ProductCodeCategory = enCustproductCodeCategory.EAN.ToString(), ProductCodeValue = request.EAN };
                 prod.ProductCodes.Add(pcEAN);
             }
             prod = await this.AddProductAsync(prod, request.ProductGroupCode, request.OriginCode, request.VatRateCode);
@@ -791,12 +796,16 @@ namespace bbxBE.Infrastructure.Persistence.Repositories
 
                 var pcCode = new ProductCode() { ProductCodeCategory = enCustproductCodeCategory.OWN.ToString(), ProductCodeValue = request.ProductCode };
                 prod.ProductCodes.Add(pcCode);
-                var pcVTSZ = new ProductCode() { ProductCodeCategory = enCustproductCodeCategory.VTSZ.ToString(), ProductCodeValue = request.VTSZ };
-                prod.ProductCodes.Add(pcVTSZ);
-                ProductCode pcEAN = null;
+
+                if (!string.IsNullOrWhiteSpace(request.VTSZ))
+                {
+                    var pcVTSZ = new ProductCode() { ProductCodeCategory = enCustproductCodeCategory.VTSZ.ToString(), ProductCodeValue = request.VTSZ };
+                    prod.ProductCodes.Add(pcVTSZ);
+                }
+                
                 if (!string.IsNullOrWhiteSpace(request.EAN))
                 {
-                    pcEAN = new ProductCode() { ProductCodeCategory = enCustproductCodeCategory.EAN.ToString(), ProductCodeValue = request.EAN };
+                    var pcEAN = new ProductCode() { ProductCodeCategory = enCustproductCodeCategory.EAN.ToString(), ProductCodeValue = request.EAN };
                     prod.ProductCodes.Add(pcEAN);
                 };
                 prodList.Add(prod);
@@ -817,13 +826,17 @@ namespace bbxBE.Infrastructure.Persistence.Repositories
             var pcCode = new ProductCode() { ProductID = prod.ID, ProductCodeCategory = enCustproductCodeCategory.OWN.ToString(), ProductCodeValue = request.ProductCode };
             prod.ProductCodes = new List<ProductCode>();
             prod.ProductCodes.Add(pcCode);
-            var pcVTSZ = new ProductCode() { ProductID = prod.ID, ProductCodeCategory = enCustproductCodeCategory.VTSZ.ToString(), ProductCodeValue = request.VTSZ };
-            prod.ProductCodes.Add(pcVTSZ);
 
-            ProductCode pcEAN = null;
+
+            if (!string.IsNullOrWhiteSpace(request.VTSZ))
+            {
+                var pcVTSZ = new ProductCode() { ProductID = prod.ID, ProductCodeCategory = enCustproductCodeCategory.VTSZ.ToString(), ProductCodeValue = request.VTSZ };
+                prod.ProductCodes.Add(pcVTSZ);
+            }
+
             if (!string.IsNullOrWhiteSpace(request.EAN))
             {
-                pcEAN = new ProductCode() { ProductID = prod.ID, ProductCodeCategory = enCustproductCodeCategory.EAN.ToString(), ProductCodeValue = request.EAN };
+                var pcEAN = new ProductCode() { ProductID = prod.ID, ProductCodeCategory = enCustproductCodeCategory.EAN.ToString(), ProductCodeValue = request.EAN };
                 prod.ProductCodes.Add(pcEAN);
             }
             return await this.UpdateProductAsync(prod, request.ProductGroupCode, request.OriginCode, request.VatRateCode);
@@ -845,13 +858,16 @@ namespace bbxBE.Infrastructure.Persistence.Repositories
                 var pcCode = new ProductCode() { ProductID = prod.ID, ProductCodeCategory = enCustproductCodeCategory.OWN.ToString(), ProductCodeValue = request.ProductCode };
                 prod.ProductCodes = new List<ProductCode>();
                 prod.ProductCodes.Add(pcCode);
-                var pcVTSZ = new ProductCode() { ProductID = prod.ID, ProductCodeCategory = enCustproductCodeCategory.VTSZ.ToString(), ProductCodeValue = request.VTSZ };
-                prod.ProductCodes.Add(pcVTSZ);
 
-                ProductCode pcEAN = null;
+                if (!string.IsNullOrWhiteSpace(request.VTSZ))
+                {
+                    var pcVTSZ = new ProductCode() { ProductID = prod.ID, ProductCodeCategory = enCustproductCodeCategory.VTSZ.ToString(), ProductCodeValue = request.VTSZ };
+                    prod.ProductCodes.Add(pcVTSZ);
+                }
+
                 if (!string.IsNullOrWhiteSpace(request.EAN))
                 {
-                    pcEAN = new ProductCode() { ProductID = prod.ID, ProductCodeCategory = enCustproductCodeCategory.EAN.ToString(), ProductCodeValue = request.EAN };
+                    var pcEAN = new ProductCode() { ProductID = prod.ID, ProductCodeCategory = enCustproductCodeCategory.EAN.ToString(), ProductCodeValue = request.EAN };
                     prod.ProductCodes.Add(pcEAN);
                 }
 
