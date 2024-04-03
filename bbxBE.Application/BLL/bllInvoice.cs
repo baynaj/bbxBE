@@ -554,7 +554,7 @@ namespace bbxBE.Application.BLL
                              p_netaDeclarationSpecified: false);
 
                     invoiceLinesNAV.Add(discountLineNAV);
-                    var maxLineNumber = invoiceLinesNAV.Max(m => Int32.Parse(m.lineNumber)) + 1;
+                    var maxLineNumber = invoiceLinesNAV.Max(m => Int32.Parse("0" + m.lineNumber)) + 1;
                     discountLineNAV.lineNumber = maxLineNumber.ToString();
 
 
