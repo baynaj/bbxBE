@@ -284,8 +284,8 @@ namespace bbxBE.Infrastructure.Persistence.Repositories
             }
             await _dbContext.Instance.BulkInsertAsync(productCodes);
 
-            await RefreshProductCache();
             await _dbContext.SaveChangesAsync();
+            await RefreshProductCache();
 
             return item;
         }
