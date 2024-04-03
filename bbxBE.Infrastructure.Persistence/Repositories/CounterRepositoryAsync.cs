@@ -175,7 +175,6 @@ namespace bbxBE.Infrastructure.Persistence.Repositories
                         }
 
                         await UpdateAsync(p_Counter);
-                        await dbContextTransaction.CommitAsync();
 
                     }
                     else
