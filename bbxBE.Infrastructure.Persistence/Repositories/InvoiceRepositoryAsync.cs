@@ -1287,8 +1287,7 @@ namespace bbxBE.Infrastructure.Persistence.Repositories
                         ln.ProductCode = rln.ProductCode;
                         ln.Product = prod;
 
-
-                        ln.VTSZ = prod.ProductCodes.FirstOrDefault(c => c.ProductCodeCategory == enCustproductCodeCategory.VTSZ.ToString()).ProductCodeValue;
+                        ln.VTSZ = prod.ProductCodes.FirstOrDefault(c => c.ProductCodeCategory == enCustproductCodeCategory.VTSZ.ToString())?.ProductCodeValue;
                         ln.LineDescription = prod.Description;
                         ln.UnitWeight = prod.UnitWeight;
 
