@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -103,6 +104,10 @@ namespace bbxBE.Application.Commands.cmdImport
 
         private static CreateCustomerCommand GetCustomerFromCSV(string currentLine, Dictionary<string, int> customerMapping, string fieldSeparator)
         {
+            var currentCulture = System.Threading.Thread.CurrentThread.CurrentCulture;
+            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("hu-HU");
+            NumberFormatInfo nfi = CultureInfo.CurrentCulture.NumberFormat;
+
             string regExpPattern = $"{fieldSeparator}(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))";
             Regex regexp = new Regex(regExpPattern);
             string[] currentFieldsArray = regexp.Split(currentLine.Replace("\r", ""));
@@ -153,10 +158,19 @@ namespace bbxBE.Application.Commands.cmdImport
                 createCustomerCommand.DefPaymentMethod = defPaymentMethod.Equals("1") ? PaymentMethodType.CASH.ToString()
                     : defPaymentMethod.Equals("2") ? PaymentMethodType.TRANSFER.ToString() : PaymentMethodType.CASH.ToString();
 
-                if (customerMapping.ContainsKey(CustomerLatestDiscountPercentFieldName)
-                    && Decimal.TryParse(currentFieldsArray[customerMapping[CustomerLatestDiscountPercentFieldName]], out decimal latestDiscountPercent))
+
+                if (customerMapping.ContainsKey(CustomerLatestDiscountPercentFieldName))
+
                 {
-                    createCustomerCommand.LatestDiscountPercent = latestDiscountPercent;
+                    var strLatestDiscountPercent = currentFieldsArray[customerMapping[CustomerLatestDiscountPercentFieldName]].Replace(".", nfi.NumberDecimalSeparator);
+                    if (Decimal.TryParse(strLatestDiscountPercent, out decimal latestDiscountPercent))
+                    {
+                        createCustomerCommand.LatestDiscountPercent = latestDiscountPercent;
+                    }
+                    else
+                    {
+                        createCustomerCommand.LatestDiscountPercent = (decimal?)null;
+                    }
                 }
                 else
                 {
@@ -218,6 +232,10 @@ namespace bbxBE.Application.Commands.cmdImport
             catch (System.Exception ex)
             {
                 throw new Exception($"{ex.Message} - customerName: {currentFieldsArray[customerMapping[CustomerNameFieldName]]}");
+            }
+            finally
+            {
+                System.Threading.Thread.CurrentThread.CurrentCulture = currentCulture;
             }
         }
     }
