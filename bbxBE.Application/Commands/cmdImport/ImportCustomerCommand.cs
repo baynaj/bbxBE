@@ -160,7 +160,6 @@ namespace bbxBE.Application.Commands.cmdImport
 
 
                 if (customerMapping.ContainsKey(CustomerLatestDiscountPercentFieldName))
-
                 {
                     var strLatestDiscountPercent = currentFieldsArray[customerMapping[CustomerLatestDiscountPercentFieldName]].Replace(".", nfi.NumberDecimalSeparator);
                     if (Decimal.TryParse(strLatestDiscountPercent, out decimal latestDiscountPercent))
