@@ -348,6 +348,10 @@ namespace bbxBE.Application.Queries.ViewModels
         public string PaymentMethodX { get; set; }
         #endregion
 
+        [ColumnLabel("Utánvét")]
+        [Description("Utánvét")]
+        public bool CashOnDelivery { get; set; }
+
         [ColumnLabel("Eredeti.biz")]
         [Description("Bevételhez eredeti bizonylata")]
         [MapToEntity("customerInvoiceNumber")]

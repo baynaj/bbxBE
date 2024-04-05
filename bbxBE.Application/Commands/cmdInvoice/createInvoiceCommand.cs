@@ -95,6 +95,11 @@ namespace bxBE.Application.Commands.cmdInvoice
         [ColumnLabel("Fiz.mód")]
         [Description("Fizetési mód")]
         public string PaymentMethod { get; set; }
+
+        [ColumnLabel("Utánvét")]
+        [Description("Utánvét")]
+        public bool CashOnDelivery { get; set; } = false;
+
         // Javítószámla
         [ColumnLabel("Eredeti számla ID")]
         [Description("Az eredeti számla ID,amelyre a módosítás vonatkozik")]

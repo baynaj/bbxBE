@@ -101,6 +101,11 @@ namespace bbxBE.Domain.Entities
             }
         }
 
+
+        [ColumnLabel("Utánvét")]
+        [Description("Utánvét")]
+        public bool CashOnDelivery { get; set; } = false;
+
         [ColumnLabel("Pénznem")]
         [Description("Pénznem")]
         private enCurrencyCodes currencyCode;

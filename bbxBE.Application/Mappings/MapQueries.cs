@@ -30,7 +30,7 @@ namespace bbxBE.Queries.Mappings
                    .ForMember(dst => dst.PrivatePerson, opt => opt.MapFrom(src => src.CustomerVatStatus == CustomerVatStatusType.PRIVATE_PERSON.ToString()))
                    .ForMember(dst => dst.CountryCodeX, opt => opt.MapFrom(src => CountryCodeResolver(src.CountryCode)))
                    .ForMember(dst => dst.UnitPriceTypeX, opt => opt.MapFrom(src => UnitPriceTypeResolver(src.UnitPriceType)))
-                   .ForMember(dst => dst.DefPaymentMethodX, opt => opt.MapFrom(src => PaymentMethodNameResolver(src.DefPaymentMethod)));
+                   .ForMember(dst => dst.DefPaymentMethodX, opt => opt.MapFrom(src => PaymentMethodNameResolver(src.DefPaymentMethod, false)));
 
 
             CreateMap<List<ProductGroup>, List<GetProductGroupViewModel>>();
@@ -94,7 +94,7 @@ namespace bbxBE.Queries.Mappings
              .ForMember(dst => dst.CustomerComment, opt => opt.MapFrom(src => src.Customer.Comment))
              .ForMember(dst => dst.CustomerVatStatus, opt => opt.MapFrom(src => src.Customer.CustomerVatStatus))
              .ForMember(dst => dst.CurrencyCodeX, opt => opt.MapFrom(src => CurrencyCodeResolver(src.CurrencyCode)))
-             .ForMember(dst => dst.PaymentMethodX, opt => opt.MapFrom(src => PaymentMethodNameResolver(src.PaymentMethod)))
+             .ForMember(dst => dst.PaymentMethodX, opt => opt.MapFrom(src => PaymentMethodNameResolver(src.PaymentMethod, src.CashOnDelivery)))
              .ForMember(dst => dst.Notice, opt => opt.MapFrom(src => (src.AdditionalInvoiceData != null && src.AdditionalInvoiceData.Any(i => i.DataName == bbxBEConsts.DEF_NOTICE) ?
                                     src.AdditionalInvoiceData.Single(i => i.DataName == bbxBEConsts.DEF_NOTICE).DataValue : "")))
              .ForMember(dst => dst.PriceReview, opt => opt.MapFrom(src => src.InvoiceLines.Any(il => il.PriceReview.HasValue && il.PriceReview.Value)))
@@ -145,7 +145,7 @@ namespace bbxBE.Queries.Mappings
              .ForMember(dst => dst.CustomerComment, opt => opt.MapFrom(src => src.Customer.Comment))
 
              .ForMember(dst => dst.CurrencyCodeX, opt => opt.MapFrom(src => CurrencyCodeResolver(src.CurrencyCode)))
-             .ForMember(dst => dst.PaymentMethodX, opt => opt.MapFrom(src => PaymentMethodNameResolver(src.PaymentMethod)))
+             .ForMember(dst => dst.PaymentMethodX, opt => opt.MapFrom(src => PaymentMethodNameResolver(src.PaymentMethod, src.CashOnDelivery)))
 
              .ForMember(dst => dst.Notice, opt => opt.MapFrom(src => (src.AdditionalInvoiceData != null && src.AdditionalInvoiceData.Any(i => i.DataName == bbxBEConsts.DEF_NOTICE) ?
                                     src.AdditionalInvoiceData.Single(i => i.DataName == bbxBEConsts.DEF_NOTICE).DataValue : "")))
@@ -301,10 +301,14 @@ namespace bbxBE.Queries.Mappings
             return "";
         }
 
-        private static string PaymentMethodNameResolver(string PaymentMethod)
+        private static string PaymentMethodNameResolver(string PaymentMethod, bool cashOnDelivery)
         {
             if (!string.IsNullOrWhiteSpace(PaymentMethod))
             {
+                if(cashOnDelivery)
+                {
+                    return bbxBEConsts.DEF_COD;
+                }    
                 var pm = (PaymentMethodType)Enum.Parse(typeof(PaymentMethodType), PaymentMethod);
                 return Common.Utils.GetEnumDescription(pm);
             }

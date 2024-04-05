@@ -48,7 +48,17 @@ namespace bbxBE.Application.Commands.cmdInvoice
 
             RuleFor(r => r.PaymentMethod)
                 .NotEmpty().WithMessage(bbxBEConsts.ERR_REQUIRED)
-                .Must(CheckPaymentMethod).WithMessage(bbxBEConsts.ERR_INVPAYMENTMETHOD);
+                .Must(CheckPaymentMethod).WithMessage(bbxBEConsts.ERR_INVPAYMENTMETHOD)
+                .Must(
+                        (model, paymentMethod) =>
+                        {
+
+                            return !model.CashOnDelivery || (model.CashOnDelivery && paymentMethod == PaymentMethodType.TRANSFER.ToString());
+                        }
+                    ).WithMessage(bbxBEConsts.ERR_INV_COD_PAYMENT);
+
+            RuleFor(r => r.CashOnDelivery)
+                .NotNull().WithMessage(bbxBEConsts.ERR_REQUIRED);
 
 
             RuleFor(r => r.CurrencyCode)

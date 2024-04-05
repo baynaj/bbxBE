@@ -38,6 +38,12 @@
         public const string DEF_TRUE = "true";
         public const string DEF_FALSE = "false";
 
+        public const string DEF_COD = "Utánvét";
+
+        public const string ENV_DEVELOPMENT = "Development";
+        public const string ENV_PROD = "Prod";
+        public const string ENV_TEST = "Test";
+        public const string ENV_TESTRELAX = "TestRelax";
 
         public const string DEF_CUSTOMERLOCK_KEY = "CUST_";
         public const string DEF_NAVLOCK_KEY = "NAV_";
@@ -141,6 +147,7 @@
         public const string ERR_INV_DATE_PAYMENT = "{PropertyName}: A számla dátuma nem lehet későbbi, mint a fizetési határidő";
         public const string ERR_INV_LINES = "{PropertyName}: A számlán nincs tételsor";
         public const string ERR_INV_VATSUMS = "{PropertyName}: A számlán nincs áfánkénti összesítő";
+        public const string ERR_INV_COD_PAYMENT = "{PropertyName}: Utánvét fizetési módja csak átutalás lehet:{PropertyValue}";
 
         public const string ERR_CST_OWNEXISTS = "{PropertyName}: Saját adat már létezik.";
         public const string ERR_CST_WRONGCOUNTRY = "{PropertyName}: Helytelen országkód:{PropertyValue}";
@@ -275,6 +282,7 @@
         public const string DEF_ACOUNTER = "A";             //Átutalás eladás számla
         public const string DEF_CCOUNTER = "C";             //Kártya eladás számla
         public const string DEF_KCOUNTER = "K";             //KP eladás számla
+        public const string DEF_UCOUNTER = "U";             //Utánvétes eladás számla
         public const string DEF_SCOUNTER = "S";             //Kimenő szállítólevél           
         public const string DEF_JAVCOUNTER = "JAV";         //Kimenő javítószámla
         public const string DEF_WHTCOUNTER = "WHT";         //Raktárközi bizonylat
