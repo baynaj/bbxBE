@@ -15,10 +15,9 @@ namespace bbxBE.Infrastructure.Persistence.Migrations
         }
         public override void Up()
         {
-
             var envdn = Environment.GetEnvironmentVariable(bbxBEConsts.ENV_DOTNET_ENVIRONMENT);
             var envasp = Environment.GetEnvironmentVariable(bbxBEConsts.ENV_ASPNETCORE_ENVIRONMENT);
-            if (envdn == "Prod" || envasp == "Prod")
+            if (envdn == bbxBEConsts.ENV_PROD || envasp == bbxBEConsts.ENV_PROD)
             {
 
 

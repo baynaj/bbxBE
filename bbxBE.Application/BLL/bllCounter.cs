@@ -12,7 +12,7 @@ namespace bbxBE.Application.BLL
 
 
 
-        public static string GetCounterCode(enInvoiceType p_invoiceType, PaymentMethodType p_paymentMethod, bool Incoming, bool isCorrectionInvoice, long WarehouseID)
+        public static string GetCounterCode(enInvoiceType p_invoiceType, PaymentMethodType p_paymentMethod, bool Incoming, bool isCorrectionInvoice, bool isCashOnDelivery, long WarehouseID)
         {
 
 
@@ -34,21 +34,26 @@ namespace bbxBE.Application.BLL
                     {
                         if (p_invoiceType == enInvoiceType.DNI)
                         {
-                            prefix = bbxBEConsts.DEF_BESCOUNTER;
+                            prefix = bbxBEConsts.DEF_BESCOUNTER;            //bevételezés szállítólevélen
 
                         }
                         else
                         {
-                            prefix = bbxBEConsts.DEF_BEVCOUNTER;
+                            prefix = bbxBEConsts.DEF_BEVCOUNTER;            //bevételezés
                         }
 
                     }
                     else
                     {
+                        // Kimenő 
                         if (p_invoiceType == enInvoiceType.DNO)
                         {
-                            prefix = bbxBEConsts.DEF_SCOUNTER;
+                            prefix = bbxBEConsts.DEF_SCOUNTER;              //kimenő szállítólevél
 
+                        }
+                        else if (isCashOnDelivery) 
+                        {
+                            prefix = bbxBEConsts.DEF_UCOUNTER;
                         }
                         else
                         {
@@ -77,6 +82,7 @@ namespace bbxBE.Application.BLL
                 }
                 else
                 {
+                    //Javítószámla
                     if (Incoming)
                     {
                         prefix = bbxBEConsts.DEF_BEJCOUNTER;

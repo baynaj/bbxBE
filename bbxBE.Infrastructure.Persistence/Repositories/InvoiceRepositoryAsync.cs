@@ -1443,7 +1443,7 @@ namespace bbxBE.Infrastructure.Persistence.Repositories
                     invoice = bllInvoice.CalcInvoiceAmounts(invoice);
 
                     //Bizonylatszám megállapítása
-                    counterCode = bllCounter.GetCounterCode(invoiceType, paymentMethod, invoice.Incoming, isInvoiceCorrection, wh.ID);
+                    counterCode = bllCounter.GetCounterCode(invoiceType, paymentMethod, invoice.Incoming, invoice.CashOnDelivery, isInvoiceCorrection, wh.ID);
                     invoice.InvoiceNumber = await _counterRepository.GetNextValueAsync(counterCode, wh.ID);
                     invoice.Copies = 0;
 
@@ -1781,8 +1781,9 @@ if( SZAMLASZ == "A-00711S24")
                     inv.PaymentDate = DateTime.ParseExact(invoiceItem["SZAMLAF"].Substring(0, 10), "yyyy-MM-dd", provider);
                     inv.PaymentMethod = (FIZMOD == "1" ? PaymentMethodType.CASH.ToString() :
                                          FIZMOD == "2" ? PaymentMethodType.TRANSFER.ToString() :
-                                         FIZMOD == "3" ? PaymentMethodType.TRANSFER.ToString() :
+                                         FIZMOD == "3" ? PaymentMethodType.TRANSFER.ToString() :        //utánvét
                                          FIZMOD == "7" ? PaymentMethodType.CARD.ToString() : PaymentMethodType.OTHER.ToString());
+                    inv.CashOnDelivery = (FIZMOD == "3");
                     inv.CurrencyCode = (CURRENCY == "Ft" ? enCurrencyCodes.HUF.ToString() :
                                         CURRENCY == "EUR" ? enCurrencyCodes.EUR.ToString() :
                                         CURRENCY == "USD" ? enCurrencyCodes.USD.ToString() :
