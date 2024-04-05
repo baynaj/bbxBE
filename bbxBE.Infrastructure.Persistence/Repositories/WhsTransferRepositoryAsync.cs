@@ -417,16 +417,14 @@ namespace bbxBE.Infrastructure.Persistence.Repositories
                 var lineErrors = new List<string>();
                 foreach (var ln in whsTransfer.WhsTransferLines)
                 {
-                    var rln = whsTransfer.WhsTransferLines.SingleOrDefault(i => i.WhsTransferLineNumber == ln.WhsTransferLineNumber);
-
-                    var prod = _productRepository.GetProductByProductCode(rln.ProductCode);
+                    var prod = _productRepository.GetProductByProductCode(ln.ProductCode);
                     if (prod == null)
                     {
-                        throw new ResourceNotFoundException(string.Format(bbxBEConsts.ERR_PRODCODENOTFOUND, rln.ProductCode));
+                        throw new ResourceNotFoundException(string.Format(bbxBEConsts.ERR_PRODCODENOTFOUND, ln.ProductCode));
                     }
 
                     ln.ProductID = prod.ID;
-                    ln.ProductCode = rln.ProductCode;
+                    ln.ProductCode = ln.ProductCode;
                     //ln.Product = prod;
 
                 }

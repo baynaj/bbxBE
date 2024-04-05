@@ -60,8 +60,8 @@ namespace bbxBE.Domain.Entities
 
         private InvoiceCategoryType invoiceCategory;
 
-        [ColumnLabel("Típus")]
-        [Description("Típus")]
+        [ColumnLabel("Kategória")]
+        [Description("Kategória")]
         public string InvoiceCategory
         {
             get { return Enum.GetName(typeof(InvoiceCategoryType), invoiceCategory); }
