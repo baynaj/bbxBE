@@ -428,6 +428,7 @@ namespace bbxBE.Infrastructure.Persistence.Repositories
             //
             var q1 = from InvoiceLine in _dbContext.InvoiceLine
                      join Invoice in _dbContext.Invoice on InvoiceLine.InvoiceID equals Invoice.ID
+                     join VatRate in _dbContext.VatRate on InvoiceLine.VatRateID equals VatRate.ID
                      where InvoiceLine.PendingDNQuantity > 0
                         && Invoice.CustomerID == customerID
                         && !Invoice.Incoming
@@ -436,6 +437,7 @@ namespace bbxBE.Infrastructure.Persistence.Repositories
                      new
                      {
                          InvoiceID = Invoice.ID,
+                         VatPercentage = VatRate.VatPercentage,
                          InvoiceDiscountPercent = Invoice.InvoiceDiscountPercent
                      }
                  into grpInner
@@ -444,10 +446,11 @@ namespace bbxBE.Infrastructure.Persistence.Repositories
                          InvoiceID = grpInner.Key.InvoiceID,
                          InvoiceDiscountPercent = grpInner.Key.InvoiceDiscountPercent,
                          Cnt = grpInner.Count(),
-                         SumNetAmountDiscountedHUF = Math.Round(grpInner.Sum(s => s.PendingDNQuantity * s.UnitPriceHUF) * (1 - grpInner.Key.InvoiceDiscountPercent / 100), 1)
+                         SumBrtAmountDiscountedHUF = Math.Round(grpInner.Sum(s => s.PendingDNQuantity * s.UnitPriceHUF * (1 + grpInner.Key.VatPercentage))
+                                    * (1 - grpInner.Key.InvoiceDiscountPercent / 100), 1)
                      };
 
-            decimal pendingAmount = await q1.SumAsync(s => s.SumNetAmountDiscountedHUF);
+            decimal pendingAmount = Math.Round(await q1.SumAsync(s => s.SumBrtAmountDiscountedHUF), 0);
 
             //2. kiegyenlítettlen számlák
             var customerFilter = new QueryUnpaidInvoice() { CustomerID = customerID, Incoming = false, Expired = false, PageSize = 99999999 };
@@ -1579,7 +1582,7 @@ namespace bbxBE.Infrastructure.Persistence.Repositories
             // Gets a NumberFormatInfo associated with the en-US culture.
             NumberFormatInfo nfi = CultureInfo.CurrentCulture.NumberFormat;
 
-            
+
 
             var wh = _warehouseRepository.GetWarehouseByCodeAsync(warehouseCode).GetAwaiter().GetResult();
             if (wh == null)
@@ -1763,7 +1766,7 @@ namespace bbxBE.Infrastructure.Persistence.Repositories
                     var CRCY_AFA = Decimal.Parse(invoiceItem["CRCY_AFA"].Replace(".", nfi.NumberDecimalSeparator));
                     var CRCY_BRT = Decimal.Parse(invoiceItem["CRCY_BRT"].Replace(".", nfi.NumberDecimalSeparator));
 
-if( SZAMLASZ == "A-00711S24")
+                    if (SZAMLASZ == "A-00711S24")
                     {
                         Console.WriteLine("dd");
                     }
