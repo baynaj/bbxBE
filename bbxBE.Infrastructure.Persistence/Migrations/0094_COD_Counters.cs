@@ -26,28 +26,29 @@ namespace bbxBE.Infrastructure.Persistence.Migrations
                 if not exists (select * from Counter where CounterCode='{0}')
                 begin
                     insert into Counter ([WarehouseID],[CounterCode],[CounterDescription],[Prefix],[CurrentNumber],[NumbepartLength],[Suffix],[CounterPool])
-                    select ID, '{2}','{3}', '{4}', {5}, {6}, '{7}', '{8}' from Warehouse where WarehouseCode='{1}'
+                    select ID, '{0}','{2}', '{3}', {4}, {5}, '{6}', '{7}' from Warehouse where WarehouseCode='{1}'
                end",
-               "U_001",
-               1, "U_001", "Szolnok utánvét", "U", (isProd ? 200000 : 0), 6, "/", ""));
+               "U_001", "001",
+               "Szolnok utánvét", "U-", (isProd ? 200000 : 0), 6, "/", ""));
 
             Execute.Sql(string.Format(@"
                 if not exists (select * from Counter where CounterCode='{0}')
                 begin
                     insert into Counter ([WarehouseID],[CounterCode],[CounterDescription],[Prefix],[CurrentNumber],[NumbepartLength],[Suffix],[CounterPool])
-                    select ID, '{2}','{3}', '{4}', {5}, {6}, '{7}', '{8}' from Warehouse where WarehouseCode='{1}'
+                    select ID, '{0}','{2}', '{3}', {4}, {5}, '{6}', '{7}' from Warehouse where WarehouseCode='{1}'
                end",
-               "U_002",
-               2, "U_002", "Kecskemét utánvét", "U", (isProd ? 500000 : 0), 6, "/", ""));
+               "U_002", "002",
+               "Kecskemét utánvét", "U-", (isProd ? 500000 : 5000), 6, "/", ""));
+
 
             Execute.Sql(string.Format(@"
                 if not exists (select * from Counter where CounterCode='{0}')
                 begin
                     insert into Counter ([WarehouseID],[CounterCode],[CounterDescription],[Prefix],[CurrentNumber],[NumbepartLength],[Suffix],[CounterPool])
-                    select ID, '{2}','{3}', '{4}', {5}, {6}, '{7}', '{8}' from Warehouse where WarehouseCode='{1}'
+                    select ID, '{0}','{2}', '{3}', {4}, {5}, '{6}', '{7}' from Warehouse where WarehouseCode='{1}'
                end",
-               "U_003",
-               3, "U_003", "Nagykőrös utánvét", "U", (isProd ? 800000 : 0), 6, "/", ""));
+               "U_003", "003",
+               "Nagykőrös utánvét", "U-", (isProd ? 800000 : 8000), 6, "/", ""));
         }
     }
 }
