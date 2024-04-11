@@ -505,8 +505,8 @@ namespace bbxBE.Infrastructure.Persistence.Repositories
                          FullAddress = grpInner.Key.FullAddress,
                          CurrencyCode = grpInner.Key.CurrencyCode,
                          PriceReview = grpInner.Where(w => w.PriceReview.HasValue && w.PriceReview.Value).Count() > 0,
-                         SumNetAmount = grpInner.Sum(s => Math.Round(s.PendingDNQuantity * s.UnitPrice, 1)),
-                         SumNetAmountDiscounted = Math.Round(grpInner.Sum(s => s.PendingDNQuantity * s.UnitPrice) * (1 - grpInner.Key.InvoiceDiscountPercent / 100), 1)
+                         SumNetAmount = grpInner.Sum(s => Math.Round(s.PendingDNQuantity * s.UnitPrice, grpInner.Key.CurrencyCode == enCurrencyCodes.HUF.ToString() ? 1 : 2)),
+                         SumNetAmountDiscounted = Math.Round(grpInner.Sum(s => s.PendingDNQuantity * s.UnitPrice) * (1 - grpInner.Key.InvoiceDiscountPercent / 100), grpInner.Key.CurrencyCode == enCurrencyCodes.HUF.ToString() ? 1 : 2)
                      };
 
             }
@@ -575,8 +575,8 @@ namespace bbxBE.Infrastructure.Persistence.Repositories
                          Customer = grpOuter.Key.Customer,
                          FullAddress = grpOuter.Key.FullAddress,
                          PriceReview = grpOuter.Count(c => c.PriceReview) > 0,          //van-e ProcePreview-es tétel  a groupban?
-                         SumNetAmount = Math.Round(grpOuter.Sum(s => s.SumNetAmount)),
-                         SumNetAmountDiscounted = Math.Round(grpOuter.Sum(s => s.SumNetAmountDiscounted)),
+                         SumNetAmount = grpOuter.Sum(s => s.SumNetAmount),
+                         SumNetAmountDiscounted = grpOuter.Sum(s => s.SumNetAmountDiscounted),
                          CurrencyCode = grpOuter.Key.CurrencyCode,
 
                      };
