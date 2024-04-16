@@ -132,12 +132,12 @@
                               <Font Size="8pt" />
                             </Style>
                           </TextBox>
-                          <TextBox Width="2.397cm" Height="0.4cm" Left="1.256cm" Top="0.5cm" Value="= Fields.unitPrice" Format="{0:N2}" Name="textBox77">
+                          <TextBox Width="2.397cm" Height="0.4cm" Left="1.256cm" Top="0.5cm" Value="= Fields.unitPrice" Format="{0:N4}" Name="textBox77">
                             <Style TextAlign="Right" VerticalAlign="Middle">
                               <Font Size="8pt" />
                             </Style>
                           </TextBox>
-                          <TextBox Width="2.4cm" Height="0.4cm" Left="3.653cm" Top="0.509cm" Value="= Fields.lineNetAmount" Format="{0:N2}" Name="textBox78">
+                          <TextBox Width="2.4cm" Height="0.4cm" Left="3.653cm" Top="0.509cm" Value="= Fields.lineNetAmount" Format="{0:N4}" Name="textBox78">
                             <Style TextAlign="Right" VerticalAlign="Middle">
                               <Font Size="8pt" />
                             </Style>
@@ -152,7 +152,7 @@
                               <Font Size="8pt" />
                             </Style>
                           </TextBox>
-                          <TextBox Width="2.512cm" Height="0.4cm" Left="9.379cm" Top="0.5cm" Value="= Fields.lineGrossAmountNormal" Format="{0:N2}" Name="textBox85">
+                          <TextBox Width="2.512cm" Height="0.4cm" Left="9.379cm" Top="0.5cm" Value="= Fields.lineGrossAmountNormal" Format="{0:N4}" Name="textBox85">
                             <Style TextAlign="Right" VerticalAlign="Middle">
                               <Font Size="8pt" />
                             </Style>
